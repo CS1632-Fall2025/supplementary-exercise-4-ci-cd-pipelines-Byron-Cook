@@ -17,16 +17,21 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists and was rented out, false otherwise
 	 */
 
-	public boolean returnCat(int id) {
-		Cat c = getCat(id);
-		if (c != null && c.getRented()) {
-			c.returnCat();
-			System.out.println(c.getName() + " has been rented.");
-		return true;
-		}	
-	return false;
-	}
+    public boolean returnCat(int id) {
+        Cat c = getCat(id);
+        if (c == null) {
+            return false;
+        }
 
+        if (!c.getRented()) {
+            System.out.println(c.getName() + " is already here!");
+            return false;
+        }
+
+        c.returnCat();
+        System.out.println("Welcome back, " + c.getName() + "!");
+        return true;
+    }
 	/**
 	 * Rent a cat. This should call the .rentCat() method on the cat for the
 	 * passed-in cat id. If the cat with the id exists in the list of cats and has
@@ -37,15 +42,21 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists and was not rented out, false otherwise
 	 */
 
-	public boolean rentCat(int id) {
-		Cat c = getCat(id);
-		if (c != null && !c.getRented()){
-			c.rentCat();
-			System.out.println(c.getName() + " has been rented.");
-			return true;
-		}
-		return false;
-	}
+    public boolean rentCat(int id) {
+        Cat c = getCat(id);
+        if (c == null) {
+            return false;
+        }
+
+        if (c.getRented()) {
+            System.out.println("Sorry, " + c.getName() + " is not here!");
+            return false;
+        }
+
+        c.rentCat();
+        System.out.println(c.getName() + " has been rented.");
+        return true;
+    }
 
 	/**
 	 * Rename a cat. This calls the .renameCat(String) method on the cat for the
@@ -56,14 +67,14 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists, false otherwise
 	 */
 
-	public boolean renameCat(int id, String name) {
-		Cat c = getCat(id);
-		if (c != null) {
-			c.renameCat(name);
-			return true;
-		}
-		return false;
-	}
+    public boolean renameCat(int id, String name) {
+        Cat c = getCat(id);
+        if (c == null) {
+            return false;
+        }
+        c.renameCat(name);
+        return true;
+    }
 
 	/**
 	 * Create a String list from the list of cats using the .toString() method of
@@ -76,13 +87,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		if (cats.isEmpty()){
-			return "";
-		}
+
 		StringBuilder sb = new StringBuilder();
 		for (Cat c :cats) {
 			if (!c.getRented()) {
-				sb.append(c.toString()).append("\n");
+				sb.append("ID ")
+						.append(c.getId())
+						.append(". ")
+						.append(c.getName())
+						.append("\n");
+
 			}
 		}
 		return sb.toString();
@@ -115,7 +129,7 @@ public class RentACatImpl implements RentACat {
 		// If we get all the way through the list and did
 		// not find a cat whose ID matches the passed-in
 		// ID, then the cat is not in the list
-		//System.out.println("Invalid cat ID.");
+		System.out.println("Invalid cat ID.");
 		return null;
 
 	}

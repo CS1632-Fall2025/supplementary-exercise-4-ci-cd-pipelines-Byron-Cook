@@ -13,16 +13,7 @@ public interface RentACat {
 			case SOLUTION:
 				return new RentACatSolution();
 			case MOCK:
-				RentACat mockRentACat = mock(RentACat.class);
-
-				when(mockRentACat.listCats()).thenReturn("Mock list");
-				when(mockRentACat.rentCat(anyInt())).thenReturn(true);
-				when(mockRentACat.returnCat(anyInt())).thenReturn(true);
-				when(mockRentACat.renameCat(anyInt(), anyString())).thenReturn(true);
-
-				doNothing().when(mockRentACat).addCat(any(Cat.class));
-
-				return mockRentACat;
+				return new RentACatImpl();
 			default:
 				assert (false);
 				return null;

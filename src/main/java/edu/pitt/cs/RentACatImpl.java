@@ -21,6 +21,7 @@ public class RentACatImpl implements RentACat {
 		Cat c = getCat(id);
 		if (c != null && c.getRented()) {
 			c.returnCat();
+			System.out.println(c.getName() + " has been rented.");
 		return true;
 		}	
 	return false;
@@ -40,6 +41,7 @@ public class RentACatImpl implements RentACat {
 		Cat c = getCat(id);
 		if (c != null && !c.getRented()){
 			c.rentCat();
+			System.out.println(c.getName() + " has been rented.");
 			return true;
 		}
 		return false;
@@ -80,11 +82,7 @@ public class RentACatImpl implements RentACat {
 		StringBuilder sb = new StringBuilder();
 		for (Cat c :cats) {
 			if (!c.getRented()) {
-				if (sb.length() > 0) {
-					sb.append("\n");
-				}
-				sb.append(c.toString());
-
+				sb.append(c.toString()).append("\n");
 			}
 		}
 		return sb.toString();
@@ -117,7 +115,7 @@ public class RentACatImpl implements RentACat {
 		// If we get all the way through the list and did
 		// not find a cat whose ID matches the passed-in
 		// ID, then the cat is not in the list
-		System.out.println("Invalid cat ID.");
+		//System.out.println("Invalid cat ID.");
 		return null;
 
 	}

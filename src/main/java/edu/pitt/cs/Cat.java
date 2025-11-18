@@ -1,6 +1,6 @@
 package edu.pitt.cs;
 
-import org.mockito.Mockito;
+
 import static org.mockito.Mockito.*; 
 
 public interface Cat {
@@ -14,9 +14,15 @@ public interface Cat {
 				return new CatSolution(id, name);
 			case MOCK:
 				Cat mockCat = mock(Cat.class);
+
+				final boolean[] rented = new boolean [] { false };
 				when(mockCat.getId()).thenReturn(id);
 				when(mockCat.getName()).thenReturn(name);
-				when(mockCat.getRented()).thenReturn(false);
+				when(mockCat.getRented()).thenAnswer(inv -> rented[0]);
+
+				doAnswer(inv -> { rented[0] = true; return null; }).when(mockCat).rentCat();
+    			doAnswer(inv -> { rented[0] = false; return null; }).when(mockCat).returnCat();
+
 				when(mockCat.toString()).thenReturn("ID " + id + ". " + name);
 				return mockCat;
 

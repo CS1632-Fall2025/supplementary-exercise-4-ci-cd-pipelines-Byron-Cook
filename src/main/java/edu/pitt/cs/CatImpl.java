@@ -37,7 +37,7 @@ public class CatImpl implements Cat {
 	}
 
 	public String toString() {
-		return "Cat ID :" + id + "Cat Name : " + name + "Cat Rented : " + rented;
+		return "ID " + id + ". " + name;
 	}
 
 }

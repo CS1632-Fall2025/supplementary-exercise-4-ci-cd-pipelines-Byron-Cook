@@ -17,7 +17,7 @@ public interface Cat {
 				when(mockCat.getId()).thenReturn(id);
 				when(mockCat.getName()).thenReturn(name);
 				when(mockCat.getRented()).thenReturn(false);
-				when(mockCat.toString()).thenReturn("MockCat" + id + ",Name" + name);
+				when(mockCat.toString()).thenReturn("ID " + id + ". " + name);
 				return mockCat;
 
 			default:

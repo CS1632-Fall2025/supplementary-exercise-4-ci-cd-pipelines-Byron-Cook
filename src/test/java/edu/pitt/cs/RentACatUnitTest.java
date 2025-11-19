@@ -8,6 +8,8 @@ import org.junit.runners.MethodSorters;
 import static org.junit.Assert.*;
 
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayOutputStream;
@@ -83,10 +85,18 @@ public class RentACatUnitTest {
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
-	public void testGetCatNullNumCats0() {
-		// TODO: Fill in
-	}
+	public void testGetCatNullNumCats0() throws Exception {
+		// Reflectively access private getCat(int)
+		java.lang.reflect.Method m = r.getClass().getDeclaredMethod("getCat", int.class);
+		m.setAccessible(true);
 
+		// Capture output
+		Object result = m.invoke(r, 2);
+		assertNull(result);
+
+		// Expect: "Invalid cat ID.\n"
+		assertEquals("Invalid cat ID." + newline, out.toString());
+	}
 	/**
 	 * Test case for Cat getCat(int id).
 	 * 
@@ -103,9 +113,20 @@ public class RentACatUnitTest {
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
-	public void testGetCatNumCats3() {
-		// TODO: Fill in
+	public void testGetCatNumCats3() throws Exception {
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
+		java.lang.reflect.Method m = r.getClass().getDeclaredMethod("getCat", int.class);
+		m.setAccessible(true);
+
+		Cat result = (Cat) m.invoke(r, 2);
+
+		assertNotNull(result);
+		assertEquals(2, result.getId());
 	}
+
 
 	/**
 	 * Test case for String listCats().
@@ -161,8 +182,17 @@ public class RentACatUnitTest {
 	 */
 	@Test
 	public void testRenameFailureNumCats0() {
-		// TODO: Fill in
+		boolean result = r.renameCat(2, "Garfield");
+
+		assertFalse(result);
+
+		// c2 should never be renamed
+		verify(c2, never()).renameCat(anyString());
+
+		// Output
+		assertEquals("Invalid cat ID." + newline, out.toString());
 	}
+
 
 	/**
 	 * Test case for boolean renameCat(int id, String name).
@@ -238,8 +268,22 @@ public class RentACatUnitTest {
 	 */
 	@Test
 	public void testRentCatFailureNumCats3() {
-		// TODO: Fill in
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
+		when(c2.getRented()).thenReturn(true); // already rented
+
+		boolean result = r.rentCat(2);
+
+		assertFalse(result);
+
+		verify(c2, never()).rentCat();
+
+		assertEquals("Sorry, Old Deuteronomy is not here!" + newline,
+					out.toString());
 	}
+
 
 	/**
 	 * Test case for boolean returnCat(int id).
@@ -259,8 +303,21 @@ public class RentACatUnitTest {
 	 */
 	@Test
 	public void testReturnCatNumCats3() {
-		// TODO: Fill in
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
+		when(c2.getRented()).thenReturn(true); // is rented
+
+		boolean result = r.returnCat(2);
+
+		assertTrue(result);
+		verify(c2).returnCat();
+
+		assertEquals("Welcome back, Old Deuteronomy!" + newline,
+					out.toString());
 	}
+
 
 	/**
 	 * Test case for boolean returnCat(int id).
@@ -279,7 +336,20 @@ public class RentACatUnitTest {
 	 */
 	@Test
 	public void testReturnFailureCatNumCats3() {
-		// TODO: Fill in
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
+		when(c2.getRented()).thenReturn(false); // already here
+
+		boolean result = r.returnCat(2);
+
+		assertFalse(result);
+		verify(c2, never()).returnCat();
+
+		assertEquals("Old Deuteronomy is already here!" + newline,
+					out.toString());
 	}
+
 
 }

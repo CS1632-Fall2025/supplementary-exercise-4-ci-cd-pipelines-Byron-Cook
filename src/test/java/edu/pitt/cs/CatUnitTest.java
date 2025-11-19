@@ -25,7 +25,7 @@ public class CatUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
-		c = Cat.createInstance(InstanceType.IMPL, 1, "Jennyanydots");
+		c = Cat.createInstance(InstanceType.MOCK, 1, "Jennyanydots");
 
 	}
 

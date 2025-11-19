@@ -54,6 +54,11 @@ public class RentACatUnitTest {
 		stdout = System.out;
 		out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(out));
+
+		when(c1.toString()).thenReturn("ID 1. Jennyanydots");
+		when(c2.toString()).thenReturn("ID 2. Old Deuteronomy");
+		when(c3.toString()).thenReturn("ID 3. Mistoffelees");
+
 	}
 
 	@After

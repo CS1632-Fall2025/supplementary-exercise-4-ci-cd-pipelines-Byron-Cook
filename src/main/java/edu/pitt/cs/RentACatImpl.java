@@ -87,20 +87,27 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-
 		StringBuilder sb = new StringBuilder();
-		for (Cat c :cats) {
-			if (!c.getRented()) {
-				sb.append("ID ")
-						.append(c.getId())
-						.append(". ")
-						.append(c.getName())
-						.append("\n");
+		boolean hasAny = false;
 
+		for (Cat c : cats) {
+			if (!c.getRented()) {
+				hasAny = true;
+				sb.append("ID ").append(c.getId()).append(". ").append(c.getName());
+				sb.append(System.lineSeparator());
 			}
 		}
+
+		if (hasAny) {
+			sb.append("]");
+		}
+
 		return sb.toString();
 	}
+
+
+
+
 
 	/**
 	 * Given an id, return a reference to the specified cat if a cat with that ID

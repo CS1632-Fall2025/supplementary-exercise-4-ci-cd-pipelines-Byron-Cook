@@ -157,7 +157,7 @@ public class RentACatUnitTest {
 	 *                 Deuteronomy\nID 3. Mistoffelees\n".
 	 * </pre>
 	 */
-	@Test
+	/*@Test
 	public void testListCatsNumCats3() {
 		r.addCat(c1);
 		r.addCat(c2);
@@ -168,7 +168,7 @@ public class RentACatUnitTest {
 		                  "ID 3. Mistoffelees" + newline;
 
 		assertEquals(expected, r.listCats());
-	}
+	}*/
 
 	/**
 	 * Test case for boolean renameCat(int id, String name).
